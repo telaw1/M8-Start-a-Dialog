@@ -57,7 +57,6 @@ var current_item_index := 0
 ## UI element that shows the texts
 @onready var rich_text_label: RichTextLabel = %RichTextLabel
 ## UI element that progresses to the next text
-@onready var next_button: Button = %NextButton
 ## Audio player that plays voice sounds while text is being written
 @onready var audio_stream_player: AudioStreamPlayer = %AudioStreamPlayer
 ## The character
@@ -68,7 +67,7 @@ var current_item_index := 0
 
 func _ready() -> void:
 	show_text()
-	next_button.pressed.connect(advance)
+
 
 
 ## Draws the current text to the rich text element
@@ -107,10 +106,9 @@ func show_text() -> void:
 	slide_in()
 
 	# Finally, we disable the next button until the text finishes displaying.
-	next_button.disabled = true
-	tween.finished.connect(func() -> void:
-		next_button.disabled = false
-	)
+
+
+
 
 
 ## Progresses to the next slide.
