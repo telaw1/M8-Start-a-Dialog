@@ -103,6 +103,36 @@ func show_text(current_item_index: int) -> void:
 	# We animate the character sliding in.
 	slide_in()
 
+# We disable the buttons, and re-enable them after the text is shown
+	for button: Button in action_buttons_v_box_container.get_children():
+		button.disabled = true
+	tween.finished.connect(func() -> void:
+		for button: Button in action_buttons_v_box_container.get_children():
+			button.disabled = false
+	)
+
+
+
+
+
+func create_buttons(choices_data: Dictionary) -> void:
+	
+	for button in action_buttons_v_box_container.get_children():
+		button.queue_free()
+		# We loop over all the dictionary keys
+	for choice_text in choices_data:
+		var button := Button.new()
+		action_buttons_v_box_container.add_child(button)
+		button.text = choice_text
+		# We extract the target line index from the dictionary value
+		var target_line_idx: int = choices_data[choice_text]
+		if target_line_idx == - 1:
+			# If the target line index is -1, we want to quit
+			button.pressed.connect(get_tree().quit)
+		else:
+			# Otherwise we bind the target line index to the show_text function
+			# and use that in the pressed signal's connection
+			button.pressed.connect(show_text.bind(target_line_idx))
 
 ## Animates the character when they start talking
 func slide_in() -> void:
